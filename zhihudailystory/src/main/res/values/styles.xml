@@ -66,4 +66,7 @@
         <item name="android:dropDownHorizontalOffset">0dp</item>
     </style>
 
+    <style name="Theme.FitStastusbar" parent="@style/DayTheme">
+    </style>
+
 </resources>

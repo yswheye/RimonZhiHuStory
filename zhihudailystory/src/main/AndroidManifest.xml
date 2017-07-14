@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="com.developer.rimon.zhihudaily.permission.MIPUSH_RECEIVE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="com.xiaomi.market.sdk.UPDATE" />
+    <uses-permission android:name="com.xiaomi.market.sdk.UPDATE"/>
 
     <permission
         android:name="com.developer.rimon.zhihudaily.permission.MIPUSH_RECEIVE"
@@ -47,7 +47,8 @@
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask">
         </activity>
-        <activity android:name=".ui.activity.StoryDetailActivity">
+        <activity
+            android:name=".ui.activity.StoryDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -123,9 +124,9 @@
                 <action android:name="com.xiaomi.mipush.ERROR"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver" >
+        <receiver android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
             </intent-filter>
         </receiver>
 

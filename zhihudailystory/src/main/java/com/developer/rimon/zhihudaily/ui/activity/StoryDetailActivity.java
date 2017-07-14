@@ -1,5 +1,6 @@
 package com.developer.rimon.zhihudaily.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.GestureDetector;
@@ -32,6 +34,8 @@ import com.developer.rimon.zhihudaily.entity.StoryExtra;
 import com.developer.rimon.zhihudaily.entity.User;
 import com.developer.rimon.zhihudaily.listener.OnGetListener;
 import com.developer.rimon.zhihudaily.utils.HttpUtil;
+import com.developer.rimon.zhihudaily.utils.PaletteUtil;
+import com.developer.rimon.zhihudaily.utils.StatusBarUtils;
 import com.developer.rimon.zhihudaily.utils.weibo.AccessTokenKeeper;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WebpageObject;
@@ -156,6 +160,7 @@ public class StoryDetailActivity extends BaseActivity implements IWeiboHandler.R
     }
 
     private void initToolbar() {
+        StatusBarUtils.setTranslucentImageHeader(this, 0, toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,6 +256,8 @@ public class StoryDetailActivity extends BaseActivity implements IWeiboHandler.R
                             storyDetailImage.setImageBitmap(resource);
                             storyDetailDescription.setText(newsDetail.title);
                             imageSource.setText(newsDetail.image_source);
+
+                            colorChange(resource);
                         }
                     };
                     Glide.with(StoryDetailActivity.this)
@@ -485,5 +492,32 @@ public class StoryDetailActivity extends BaseActivity implements IWeiboHandler.R
             finish();
             return super.onDoubleTap(e);
         }
+    }
+
+    /**
+     * 界面颜色的更改
+     */
+    @SuppressLint("NewApi")
+    private void colorChange(final Bitmap bitmap) {
+        // Palette的部分
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                Palette.Swatch vibrant = palette.getVibrantSwatch();
+                if (vibrant == null) {
+                    vibrant = palette.getMutedSwatch();
+                }
+
+                if (vibrant == null) {
+                    return;
+                }
+                changeUI(vibrant.getRgb());
+            }
+        });
+    }
+
+    private void changeUI(int color) {
+        collapsingToolbarLayout.setContentScrimColor(PaletteUtil.colorBurn(color));
+        collapsingToolbarLayout.setStatusBarScrimColor(PaletteUtil.colorBurn(color));
     }
 }
